@@ -6,11 +6,19 @@ A small clinic app for patients, a lab test catalog, and orders. Each order show
 
 Needs Node 24+ and pnpm 11.
 
+**First time?** Install Node 24 from [nodejs.org](https://nodejs.org) (or run `mise install`, which reads `mise.toml`). Then install pnpm:
+
+```bash
+npm install -g pnpm@11
+```
+
+Then start the app:
+
 ```bash
 pnpm start
 ```
 
-Open http://localhost:5173 (API on :3000). `pnpm start` installs, migrates, seeds an empty database, and starts both apps, skipping steps that are already done.
+Open http://localhost:5173 (API on :3000). `pnpm start` installs, migrates, seeds the database if it is empty, and starts both apps, skipping steps that are already done.
 
 Other commands: `pnpm test`, `pnpm typecheck`, `pnpm lint`, `pnpm db:seed` (wipes and reseeds the SQLite file at `apps/api/data/lab.db`).
 
@@ -31,7 +39,7 @@ docs/             PLAN.md (every decision) and adr/ (decision records)
 
 ## Testing
 
-76 Vitest tests (`pnpm test`): unit tests on the shared rules and on services (fake repositories, fixed clock), and router tests through real services on a fresh in-memory SQLite database per test. No UI tests; the screens were checked by hand.
+84 Vitest tests (`pnpm test`): unit tests on the shared rules and on services (fake repositories, fixed clock), and router tests through real services on a fresh in-memory SQLite database per test. No UI tests; the screens were checked by hand.
 
 ## Decisions and trade-offs
 
@@ -55,4 +63,3 @@ docs/             PLAN.md (every decision) and adr/ (decision records)
 - **Planning:** I used a "grilling" skill to question me on scope, architecture and testing before any code. The answers are in `docs/PLAN.md`. I made each decision; for example, I chose tRPC, Hono, float dollars, business days, 2 statuses, folders grouped by layer, and the light theme.
 - **Design:** a quick design mockup from a baseline screenshot, before the UI code.
 - **Building:** the plan was split into steps. One orchestrating Claude Code session ran the plan and started a parallel subagent for each step that touches different folders (for example rules, database and web parts). Each subagent worked in its own git worktree and branch, and reported back when it was done. I reviewed each branch and its checks before merging.
-- **What I changed:** <!-- TODO(Connor): add the parts you rewrote or reviewed by hand. -->
