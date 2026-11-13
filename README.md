@@ -10,7 +10,7 @@ Needs Node 24+ and pnpm 11.
 pnpm start
 ```
 
-Open http://localhost:5173 (API on :3000). `pnpm start` installs, migrates, seeds an empty database, and starts both apps, skipping steps that are already done.
+Open http://localhost:5173 (API on :3000). `pnpm start` installs, migrates, seeds the database if it is empty, and starts both apps, skipping steps that are already done.
 
 Other commands: `pnpm test`, `pnpm typecheck`, `pnpm lint`, `pnpm db:seed` (wipes and reseeds the SQLite file at `apps/api/data/lab.db`).
 
@@ -31,7 +31,7 @@ docs/             PLAN.md (every decision) and adr/ (decision records)
 
 ## Testing
 
-76 Vitest tests (`pnpm test`): unit tests on the shared rules and on services (fake repositories, fixed clock), and router tests through real services on a fresh in-memory SQLite database per test. No UI tests; the screens were checked by hand.
+84 Vitest tests (`pnpm test`): unit tests on the shared rules and on services (fake repositories, fixed clock), and router tests through real services on a fresh in-memory SQLite database per test. No UI tests; the screens were checked by hand.
 
 ## Decisions and trade-offs
 
