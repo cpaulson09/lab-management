@@ -171,6 +171,24 @@ Light theme. Design: https://claude.ai/artifact/Gb1v9EkveH1jq6qSaL7nF4 ("Light t
 - Font: Figtree.
 - Baseline screenshot: [design/baseline.png](design/baseline.png).
 
+## Order and parallel work
+
+Some steps need others first. Steps on the same line can run at the same time, because they touch different folders.
+
+```
+            ┌─ 1. Rules ───────┐
+0. Skeleton ┼─ 2. Database ────┼─ 3. API ─ 4. Screens ─ 5. README ─ 6. Bug fixes
+            └─ 4a. Web parts ──┘
+```
+
+| When | What runs at the same time |
+|---|---|
+| First | 0. Skeleton (alone: everything needs it) |
+| After 0 | 1. Rules, 2. Database, 4a. Shared web parts |
+| After 1 + 2 | 3. API (patients and lab tests first, then orders) |
+| After 3 | 4. Screens: Patients, Catalog and Orders |
+| Last | 5. README, then 6. Bug fixes |
+
 ## Steps
 
 **0. Skeleton**
