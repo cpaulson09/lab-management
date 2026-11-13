@@ -6,6 +6,14 @@ A small clinic app for patients, a lab test catalog, and orders. Each order show
 
 Needs Node 24+ and pnpm 11.
 
+**First time?** Install Node 24 from [nodejs.org](https://nodejs.org) (or run `mise install`, which reads `mise.toml`). Then install pnpm:
+
+```bash
+npm install -g pnpm@11
+```
+
+Then start the app:
+
 ```bash
 pnpm start
 ```
