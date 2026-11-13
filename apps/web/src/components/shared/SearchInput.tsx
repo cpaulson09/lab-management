@@ -13,8 +13,12 @@ type Props = {
 export function SearchInput({ value, onChange, label, placeholder }: Props) {
   const [text, setText] = useState(value);
 
-  // Follow the URL when it changes from outside (back button, link).
-  useEffect(() => setText(value), [value]);
+  // Follow the URL when it changes from outside (back button, link). Keep the
+  // typed text when it already matches, so a trailing space is not lost.
+  useEffect(
+    () => setText((current) => (current.trim() === value ? current : value)),
+    [value],
+  );
 
   useEffect(() => {
     if (text.trim() === value) return;
