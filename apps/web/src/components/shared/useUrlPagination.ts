@@ -9,13 +9,16 @@ export function useUrlPagination() {
   const page = Number.isInteger(raw) && raw >= 1 ? raw : 1;
 
   const setPage = useCallback(
-    (next: number) => {
-      setSearchParams((params) => {
-        const updated = new URLSearchParams(params);
-        if (next <= 1) updated.delete("page");
-        else updated.set("page", String(next));
-        return updated;
-      });
+    (next: number, options?: { replace?: boolean }) => {
+      setSearchParams(
+        (params) => {
+          const updated = new URLSearchParams(params);
+          if (next <= 1) updated.delete("page");
+          else updated.set("page", String(next));
+          return updated;
+        },
+        { replace: options?.replace },
+      );
     },
     [setSearchParams],
   );

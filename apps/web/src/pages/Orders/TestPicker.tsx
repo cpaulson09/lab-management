@@ -56,7 +56,9 @@ export function TestPicker({
       >
         {shown.length === 0 && (
           <li className="px-3 py-6 text-center text-sm text-muted-foreground">
-            No tests match "{filter}".
+            {labTests.length === 0
+              ? "No lab tests yet. Add one in the Test catalog first."
+              : `No tests match "${filter}".`}
           </li>
         )}
         {shown.map((test) => {
@@ -86,10 +88,12 @@ export function TestPicker({
                 >
                   {checked && <Check className="size-3.5" strokeWidth={3} />}
                 </span>
-                <span className="w-14 shrink-0 font-mono font-semibold">
+                <span className="max-w-[40%] min-w-14 shrink-0 font-mono font-semibold break-all">
                   {test.code}
                 </span>
-                <span className="min-w-0 flex-1">{test.name}</span>
+                <span className="min-w-0 flex-1 wrap-anywhere">
+                  {test.name}
+                </span>
                 <span className="shrink-0 text-right tabular-nums">
                   {formatMoney(test.price)}
                   <span className="block text-xs text-muted-foreground">

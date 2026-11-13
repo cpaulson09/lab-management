@@ -87,6 +87,7 @@ function NewOrderBody({
   const patients = usePatientOptions();
   const labTests = useLabTestOptions();
   const create = useCreateOrder();
+  const noPatients = patients.isSuccess && patients.data.total === 0;
 
   const form = useForm<z.input<typeof formSchema>, unknown, OrderCreate>({
     resolver: zodResolver(formSchema),
@@ -124,7 +125,7 @@ function NewOrderBody({
               <Select
                 value={field.value === undefined ? "" : String(field.value)}
                 onValueChange={(value) => field.onChange(Number(value))}
-                disabled={patients.isPending}
+                disabled={patients.isPending || noPatients}
               >
                 <FormControl>
                   <SelectTrigger
@@ -135,7 +136,9 @@ function NewOrderBody({
                       placeholder={
                         patients.isPending
                           ? "Loading patients…"
-                          : "Pick a patient"
+                          : noPatients
+                            ? "No patients yet. Add one on the Patients page."
+                            : "Pick a patient"
                       }
                     />
                   </SelectTrigger>

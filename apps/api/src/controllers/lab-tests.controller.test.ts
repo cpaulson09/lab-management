@@ -111,6 +111,15 @@ describe("labTests controller", () => {
     expect(
       await errorCode(caller.labTests.create({ ...cbc, turnaroundDays: 0 })),
     ).toBe("BAD_REQUEST");
+    // A huge turnaround would make the ready date math block the API.
+    expect(
+      await errorCode(
+        caller.labTests.create({ ...cbc, turnaroundDays: 2_000_000_000 }),
+      ),
+    ).toBe("BAD_REQUEST");
+    expect(
+      await errorCode(caller.labTests.create({ ...cbc, turnaroundDays: 366 })),
+    ).toBe("BAD_REQUEST");
     expect(await errorCode(caller.labTests.create({ ...cbc, price: -1 }))).toBe(
       "BAD_REQUEST",
     );

@@ -1,17 +1,26 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 type Props = {
   page: number;
   pageSize: number;
   total: number;
-  onPageChange: (page: number) => void;
+  onPageChange: (page: number, options?: { replace?: boolean }) => void;
 };
 
 export function Pagination({ page, pageSize, total, onPageChange }: Props) {
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const first = total === 0 ? 0 : (page - 1) * pageSize + 1;
   const last = Math.min(page * pageSize, total);
+
+  // A page past the end (an old link, or the last row left the filter):
+  // go to the last page. Replace, so Back does not return to the empty page.
+  useEffect(() => {
+    if (total > 0 && page > pageCount) {
+      onPageChange(pageCount, { replace: true });
+    }
+  }, [total, page, pageCount, onPageChange]);
 
   return (
     <nav

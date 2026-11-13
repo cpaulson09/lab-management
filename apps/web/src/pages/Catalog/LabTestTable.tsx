@@ -45,7 +45,7 @@ export function LabTestTable({ labTests, loading, onEdit }: Props) {
                 <TableCell className="font-mono font-semibold">
                   {labTest.code}
                 </TableCell>
-                <TableCell className="whitespace-normal">
+                <TableCell className="whitespace-normal wrap-anywhere">
                   {labTest.name}
                 </TableCell>
                 <TableCell className="text-right tabular-nums">

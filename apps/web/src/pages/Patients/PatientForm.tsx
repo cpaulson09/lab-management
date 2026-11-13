@@ -1,5 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type Patient, patientCreateSchema } from "@lab/shared";
+import {
+  latestDateOfBirth,
+  MIN_DATE_OF_BIRTH,
+  type Patient,
+  patientCreateSchema,
+} from "@lab/shared";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -29,8 +34,7 @@ import { useCreatePatient, useUpdatePatient } from "./usePatients";
  * an empty input means "no value".
  */
 const formSchema = patientCreateSchema.extend({
-  dateOfBirth: z.iso.date({ error: "Enter a date of birth" }),
-  phone: z.string().trim().max(30),
+  phone: z.string().trim().max(30, "Use 30 characters or fewer"),
   email: z.union([z.literal(""), z.email("Enter a valid email")]),
 });
 type FormValues = z.infer<typeof formSchema>;
@@ -147,7 +151,12 @@ function PatientFormBody({
             <FormItem>
               <FormLabel>Date of birth</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input
+                  type="date"
+                  min={MIN_DATE_OF_BIRTH}
+                  max={latestDateOfBirth()}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

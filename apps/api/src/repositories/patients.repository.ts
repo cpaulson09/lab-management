@@ -7,7 +7,7 @@ import { patient } from "../db/schema";
 type PatientRow = typeof patient.$inferSelect;
 
 export type PatientListParams = PageParams & {
-  /** Matches part of the first or last name, any case. */
+  /** Matches part of the name (first, last, or both), any case. */
   search?: string;
 };
 
@@ -28,13 +28,19 @@ function containsPattern(text: string): string {
   return `%${text.replace(/[\\%_]/g, (c) => `\\${c}`)}%`;
 }
 
+/**
+ * Matches part of the name as people type it: "Ann", "Lee", "Ann Lee",
+ * "Lee Ann" or "Lee, Ann" (the way the table shows it). Spaces in the search
+ * collapse to one.
+ */
 function nameMatches(search: string | undefined): SQL | undefined {
-  const text = search?.trim();
+  const text = search?.trim().replace(/\s+/g, " ");
   if (!text) return undefined;
   const pattern = containsPattern(text.toLowerCase());
   return or(
-    sql`lower(${patient.first_name}) like ${pattern} escape '\\'`,
-    sql`lower(${patient.last_name}) like ${pattern} escape '\\'`,
+    sql`lower(${patient.first_name} || ' ' || ${patient.last_name}) like ${pattern} escape '\\'`,
+    sql`lower(${patient.last_name} || ' ' || ${patient.first_name}) like ${pattern} escape '\\'`,
+    sql`lower(${patient.last_name} || ', ' || ${patient.first_name}) like ${pattern} escape '\\'`,
   );
 }
 

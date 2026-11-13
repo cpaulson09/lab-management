@@ -65,7 +65,7 @@ export function OrderTable({ orders, loading, onOpen }: Props) {
                     {formatOrderNumber(order.orderId)}
                   </button>
                 </TableCell>
-                <TableCell className="font-medium whitespace-normal">
+                <TableCell className="font-medium whitespace-normal wrap-anywhere">
                   {order.patientFirstName} {order.patientLastName}
                 </TableCell>
                 <TableCell

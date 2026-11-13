@@ -1,5 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type LabTest, labTestCreateSchema } from "@lab/shared";
+import {
+  type LabTest,
+  labTestCreateSchema,
+  MAX_TURNAROUND_DAYS,
+} from "@lab/shared";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -33,7 +37,11 @@ const formSchema = labTestCreateSchema.extend({
   turnaroundDays: z
     .number({ error: "Enter the turnaround" })
     .int("Use whole days")
-    .min(1, "Turnaround is at least 1 business day"),
+    .min(1, "Turnaround is at least 1 business day")
+    .max(
+      MAX_TURNAROUND_DAYS,
+      `Turnaround is at most ${MAX_TURNAROUND_DAYS} business days`,
+    ),
 });
 type FormInput = z.input<typeof formSchema>;
 type FormOutput = z.output<typeof formSchema>;
@@ -192,6 +200,7 @@ function LabTestFormBody({
                     type="number"
                     inputMode="numeric"
                     min={1}
+                    max={MAX_TURNAROUND_DAYS}
                     step={1}
                     name={field.name}
                     ref={field.ref}
