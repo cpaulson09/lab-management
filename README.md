@@ -54,5 +54,5 @@ docs/             PLAN.md (every decision) and adr/ (decision records)
 
 - **Planning:** I used a "grilling" skill to question me on scope, architecture and testing before any code. The answers are in `docs/PLAN.md`. I made each decision; for example, I chose tRPC, Hono, float dollars, business days, 2 statuses, folders grouped by layer, and the light theme.
 - **Design:** a quick design mockup from a baseline screenshot, before the UI code.
-- **Building:** the plan was split into steps. Steps that touch different folders ran at the same time in separate Claude Code sessions (for example rules, database and web parts). I reviewed each branch and its checks before merging.
+- **Building:** the plan was split into steps. One orchestrating Claude Code session ran the plan and started a parallel subagent for each step that touches different folders (for example rules, database and web parts). Each subagent worked in its own git worktree and branch, and reported back when it was done. I reviewed each branch and its checks before merging.
 - **What I changed:** <!-- TODO(Connor): add the parts you rewrote or reviewed by hand. -->
