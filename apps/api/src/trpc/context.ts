@@ -1,9 +1,10 @@
-/**
- * Everything a request needs. Services are added here in step 3,
- * so tests can pass in fakes or an in-memory database.
- */
-export type Context = Record<string, never>;
+import type { Services } from "../container";
 
-export function createContext(): Context {
-  return {};
+/** Everything a request needs: the services. Tests build it from an in-memory database. */
+export type Context = {
+  services: Services;
+};
+
+export function createContext(services: Services): Context {
+  return { services };
 }
