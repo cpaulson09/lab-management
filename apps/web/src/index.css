@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Light theme only. `dark:` styles in the shadcn parts apply only under a `.dark` class, not the OS setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
  * Light theme. Colors come from docs/PLAN.md ("Look").
  * Lime (--secondary) is a fill only. Never use it for text on a light background.
