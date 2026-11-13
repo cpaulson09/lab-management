@@ -35,20 +35,6 @@ Then open http://localhost:5173. The API runs on http://localhost:3000.
 
 The database is a SQLite file at `apps/api/data/lab.db`. Delete it to start from zero.
 
-## What it does
-
-- **Patients:** list with name search and pages; add and edit.
-- **Test catalog:** list with pages; add and edit (code, name, price, turnaround in business days). Codes are unique.
-- **Orders:** list with filters for patient and status, and pages. Place a new order (pick a patient, tick tests, see the total and ready date before you submit). Open an order to see its items and mark it completed.
-
-### Business rules
-
-- **Total** = the sum of the item prices, rounded to 2 places.
-- **Ready date** = count the **longest** turnaround of the order's tests in business days (Mon–Fri), starting the day after the order is placed. Tests run at the same time, so the longest one sets the date.
-  Example: placed Thu Nov 12 with a 1-day and a 3-day test → ready **Tue Nov 17**.
-- **Price snapshot:** each order item copies the test's price and turnaround when the order is placed. Later catalog changes do not change old orders.
-- **Status:** `Pending → Completed`. Completed is final.
-
 ## How it is built
 
 ```
@@ -117,19 +103,6 @@ State:
 
 There is no global store. TanStack Query already holds the server data. If one is needed later, it goes in `src/stores/` and only the page hooks change.
 
-## Testing
-
-76 tests, all with Vitest.
-
-| What | How |
-|---|---|
-| Business rules (`packages/shared`) | Unit tests on the pure functions (totals, business days, ready date, completing). |
-| Services | Unit tests with fake repositories and a fixed clock. No database. |
-| Controllers | Router tests through the real service and repository on a fresh in-memory SQLite database for each test. |
-| Database | Migrations, constraints, pagination and seed. |
-
-There are no automated UI tests. I checked the screens by hand at desktop and phone width.
-
 ## Decisions and trade-offs
 
 | Decision | Why | Cost |
@@ -148,9 +121,7 @@ There are no automated UI tests. I checked the screens by hand at desktop and ph
 - No UI tests. Next I would add a few component tests and one Playwright test for the main flow.
 - Next features: holidays and time zones in the ready date, money in cents, cancel and edit while `Pending`, results entry, and an audit trail.
 
-## How I used AI
-
-I built this with Claude Code.
+## How I used AI (Building process)
 
 - **Planning:** I used a "grilling" skill to question me on scope, architecture and testing before any code. The answers are in `docs/PLAN.md`. I made each decision; for example, I chose tRPC, Hono, float dollars, business days, 2 statuses, folders grouped by layer, and the light theme.
 - **Design:** a quick design mockup from a baseline screenshot, before the UI code.
