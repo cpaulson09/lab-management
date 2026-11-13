@@ -18,8 +18,17 @@ export const labTestSchema = z.object({
 export type LabTest = z.infer<typeof labTestSchema>;
 
 export const labTestCreateSchema = z.object({
-  code: z.string().trim().min(1, "Code is required").max(20).toUpperCase(),
-  name: z.string().trim().min(1, "Name is required").max(200),
+  code: z
+    .string()
+    .trim()
+    .min(1, "Code is required")
+    .max(20, "Use 20 characters or fewer")
+    .toUpperCase(),
+  name: z
+    .string()
+    .trim()
+    .min(1, "Name is required")
+    .max(200, "Use 200 characters or fewer"),
   price: moneySchema,
   turnaroundDays: z
     .number()

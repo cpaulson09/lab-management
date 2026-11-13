@@ -157,6 +157,14 @@ describe("patients controller", () => {
       caller.patients.create({ ...grace, dateOfBirth: "2026-02-30" }),
       "BAD_REQUEST",
     );
+    await expectCode(
+      caller.patients.create({ ...grace, dateOfBirth: "2999-01-01" }),
+      "BAD_REQUEST",
+    );
+    await expectCode(
+      caller.patients.create({ ...grace, dateOfBirth: "0099-01-01" }),
+      "BAD_REQUEST",
+    );
   });
 
   it("returns NOT_FOUND for an unknown id on get and update", async () => {
