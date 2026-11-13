@@ -39,7 +39,7 @@ export function PatientTable({ patients, loading, onEdit }: Props) {
           ) : (
             patients?.map((patient) => (
               <TableRow key={patient.patientId}>
-                <TableCell className="font-semibold">
+                <TableCell className="font-semibold whitespace-normal wrap-anywhere">
                   {patient.lastName}, {patient.firstName}
                 </TableCell>
                 <TableCell className="whitespace-nowrap">

@@ -55,7 +55,7 @@ export function OrderDetail({ orderId, onClose }: Props) {
           <SheetTitle>
             Order {shownId === undefined ? "" : formatOrderNumber(shownId)}
           </SheetTitle>
-          <SheetDescription>
+          <SheetDescription className="wrap-anywhere">
             {order.data
               ? `${order.data.patientFirstName} ${order.data.patientLastName}`
               : order.isError
@@ -105,10 +105,12 @@ export function OrderDetail({ orderId, onClose }: Props) {
                     key={item.orderItemId}
                     className="flex items-center gap-3 border-b px-3 py-2.5 text-sm last:border-b-0"
                   >
-                    <span className="w-14 shrink-0 font-mono font-semibold">
+                    <span className="max-w-[40%] min-w-14 shrink-0 font-mono font-semibold break-all">
                       {item.code}
                     </span>
-                    <span className="min-w-0 flex-1">{item.name}</span>
+                    <span className="min-w-0 flex-1 wrap-anywhere">
+                      {item.name}
+                    </span>
                     <span className="tabular-nums">
                       {formatMoney(item.price)}
                     </span>
