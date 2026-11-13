@@ -139,6 +139,32 @@ describe("patients controller", () => {
     expect(blank.total).toBe(3);
   });
 
+  it("searches a full name in either order", async () => {
+    const { caller } = createTestCaller();
+    await caller.patients.create(grace);
+    await caller.patients.create({
+      firstName: "Hope",
+      lastName: "Jones",
+      dateOfBirth: "1970-05-05",
+    });
+
+    for (const search of [
+      "Grace Hopper",
+      "grace  hop",
+      "Hopper Grace",
+      "Hopper, Grace",
+    ]) {
+      const page = await caller.patients.list({ search });
+      expect(
+        page.items.map((p) => p.lastName),
+        search,
+      ).toEqual(["Hopper"]);
+    }
+    expect((await caller.patients.list({ search: "Grace Jones" })).total).toBe(
+      0,
+    );
+  });
+
   it("rejects an empty first name", async () => {
     const { caller } = createTestCaller();
     await expectCode(
