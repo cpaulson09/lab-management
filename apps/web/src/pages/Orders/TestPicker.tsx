@@ -56,7 +56,9 @@ export function TestPicker({
       >
         {shown.length === 0 && (
           <li className="px-3 py-6 text-center text-sm text-muted-foreground">
-            No tests match "{filter}".
+            {labTests.length === 0
+              ? "No lab tests yet. Add one in the Test catalog first."
+              : `No tests match "${filter}".`}
           </li>
         )}
         {shown.map((test) => {
