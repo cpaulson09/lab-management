@@ -45,7 +45,7 @@ docs/             PLAN.md (every decision) and adr/ (decision records)
 
 ## Known limits and next steps
 
-- Not built: login, delete, editing or cancelling an order, test results.
+- **Not built:** login, delete, editing or cancelling an order, test results.
 - The "New order" pickers load only the first 100 patients and tests. A bigger database needs a search picker.
 - No UI tests. Next: a few component tests and one Playwright test of the main flow.
 - Next features: holidays and time zones, money in cents, cancel and edit while `Pending`, results entry.
