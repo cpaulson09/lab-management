@@ -15,7 +15,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -121,7 +120,7 @@ function LabTestFormBody({
         className="flex flex-col gap-4"
         noValidate
       >
-        <div className="grid gap-4 sm:grid-cols-[8rem_1fr]">
+        <div className="grid items-start gap-4 sm:grid-cols-[8rem_1fr]">
           <FormField
             control={form.control}
             name="code"
@@ -153,7 +152,7 @@ function LabTestFormBody({
             )}
           />
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid items-start gap-4 sm:grid-cols-2">
           <FormField
             control={form.control}
             name="price"
@@ -182,7 +181,12 @@ function LabTestFormBody({
             name="turnaroundDays"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Turnaround</FormLabel>
+                <FormLabel>
+                  Turnaround
+                  <span className="font-normal text-muted-foreground">
+                    (business days)
+                  </span>
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -196,7 +200,6 @@ function LabTestFormBody({
                     onChange={(e) => field.onChange(toNumber(e.target.value))}
                   />
                 </FormControl>
-                <FormDescription>Business days</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
