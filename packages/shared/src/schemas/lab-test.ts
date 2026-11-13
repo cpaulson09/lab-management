@@ -1,12 +1,19 @@
 import { z } from "zod";
 import { idSchema, moneySchema } from "./common";
 
+/**
+ * The longest turnaround a lab test can have (about 1.5 years of business
+ * days). Without a limit, a huge number makes the ready date math run for
+ * minutes and blocks the API.
+ */
+export const MAX_TURNAROUND_DAYS = 365;
+
 export const labTestSchema = z.object({
   labTestId: idSchema,
   code: z.string().min(1),
   name: z.string().min(1),
   price: moneySchema,
-  turnaroundDays: z.number().int().min(1),
+  turnaroundDays: z.number().int().min(1).max(MAX_TURNAROUND_DAYS),
 });
 export type LabTest = z.infer<typeof labTestSchema>;
 
@@ -17,7 +24,11 @@ export const labTestCreateSchema = z.object({
   turnaroundDays: z
     .number()
     .int()
-    .min(1, "Turnaround is at least 1 business day"),
+    .min(1, "Turnaround is at least 1 business day")
+    .max(
+      MAX_TURNAROUND_DAYS,
+      `Turnaround is at most ${MAX_TURNAROUND_DAYS} business days`,
+    ),
 });
 export type LabTestCreate = z.infer<typeof labTestCreateSchema>;
 
